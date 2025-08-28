@@ -1,0 +1,13 @@
+{
+  "open_garage": "Open garage",
+  "garage_menu": {
+    "list_vehicles": {
+      "title": "List Vehicles",
+      "description": "View all vehicles in the garage"
+    },
+    "park_vehicle": {
+      "title": "Park Vehicle",
+      "description": "Park a vehicle in the garage"
+    }
+  }
+}
