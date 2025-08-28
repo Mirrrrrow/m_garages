@@ -1,7 +1,6 @@
 local MenuBuilder = {}
 local cachedMainMenus = {}
 
-local Actions = require 'client.actions'
 function MenuBuilder.openGarage(garageKey, garageData)
     local menuId = ('garage_%s'):format(garageKey)
     if cachedMainMenus[garageKey] then

@@ -5,8 +5,13 @@ lib.callback.register('garage:server:fetchNearbyVehicles', function(playerId, ga
     local garage = Config.garages[garageKey]
     if not garage then return false, locale('messages.unknown_error') end
 
+    local netIdByPlates = {}
     local nearbyVehicles = lib.array.map(lib.getNearbyVehicles(garage.coords.xyz, garage.radius), function(element)
-        return GetVehicleNumberPlateText(element.vehicle)
+        local entity = element.vehicle
+        local plate = GetVehicleNumberPlateText(entity):gsub('^%s*(.-)%s*$', '%1')
+        netIdByPlates[plate] = NetworkGetNetworkIdFromEntity(entity)
+
+        return plate
     end)
 
     if not nearbyVehicles or #nearbyVehicles == 0 then
@@ -33,5 +38,10 @@ lib.callback.register('garage:server:fetchNearbyVehicles', function(playerId, ga
         table.insert(params, garage.allowedVehicleTypes)
     end
 
-    return true, MySQL.query.await(query, params) or {}
+    local rows = MySQL.query.await(query, params)
+    for _, row in ipairs(rows) do
+        row.netId = netIdByPlates[row.plate]
+    end
+
+    return true, rows
 end)

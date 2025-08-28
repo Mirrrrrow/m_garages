@@ -1,7 +1,10 @@
 local spawnedPeds = lib.array:new()
 local target = exports.ox_target
 
-local MenuBuilder = require 'client.menuBuilder'
+MenuBuilder = require 'client.menuBuilder'
+ModalBuilder = require 'client.modalBuilder'
+Actions = require 'client.actions'
+
 
 ---@param data { label: string, coords: vector3, sprite: number, color: number }
 local function addBlip(data)

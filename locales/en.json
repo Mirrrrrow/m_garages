@@ -17,5 +17,9 @@
   "vehicle_selector": {
     "header": "Which vehicle do you want to store?",
     "label": "Please select a vehicle"
+  },
+  "confirmation": {
+    "header": "Parkfees",
+    "content": "This garage charges a parking fee of **$%s** per minute for your vehicle class. You will have to confirm this before proceeding."
   }
 }
