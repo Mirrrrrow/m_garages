@@ -3,6 +3,7 @@ return {
         meeting_point_public_garage = {
             label = 'Meeting Point',
             coords = vec4(100.8020, -1072.5234, 28.3741, 332.0977),
+            radius = 50.0,
             blip = {
                 sprite = 357,
                 color = 3,

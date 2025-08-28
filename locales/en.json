@@ -1,5 +1,9 @@
 {
   "open_garage": "Open garage",
+  "messages": {
+    "unknown_error": "An unknown error occurred",
+    "no_vehicles": "No vehicles found"
+  },
   "garage_menu": {
     "list_vehicles": {
       "title": "List Vehicles",
@@ -9,5 +13,9 @@
       "title": "Park Vehicle",
       "description": "Park a vehicle in the garage"
     }
+  },
+  "vehicle_selector": {
+    "header": "Which vehicle do you want to store?",
+    "label": "Please select a vehicle"
   }
 }

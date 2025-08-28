@@ -1,6 +1,7 @@
 local MenuBuilder = {}
 local cachedMainMenus = {}
 
+local Actions = require 'client.actions'
 function MenuBuilder.openGarage(garageKey, garageData)
     local menuId = ('garage_%s'):format(garageKey)
     if cachedMainMenus[garageKey] then
@@ -19,7 +20,10 @@ function MenuBuilder.openGarage(garageKey, garageData)
             {
                 icon = 'car',
                 title = locale('garage_menu.park_vehicle.title'),
-                description = locale('garage_menu.park_vehicle.description')
+                description = locale('garage_menu.park_vehicle.description'),
+                onSelect = function()
+                    Actions.requestParkIn(garageKey, garageData)
+                end
             }
         }
     })
