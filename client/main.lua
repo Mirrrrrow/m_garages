@@ -1,6 +1,7 @@
 local spawnedPeds = lib.array:new()
 local target = exports.ox_target
 
+Utils = require 'client.utils'
 MenuBuilder = require 'client.menuBuilder'
 ModalBuilder = require 'client.modalBuilder'
 Actions = require 'client.actions'

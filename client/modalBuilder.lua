@@ -1,19 +1,5 @@
 local ModalBuilder = {}
 
-local function generateCarLabel(model)
-    model = tonumber(model)
-    if not model then return end
-
-    local displayName = GetDisplayNameFromVehicleModel(model)
-    local makeName = GetMakeNameFromVehicleModel(model)
-    local label = GetLabelText(displayName)
-    if makeName ~= '' then
-        label = GetLabelText(makeName) .. ' ' .. label
-    end
-
-    return label
-end
-
 function ModalBuilder.requestVehicleSelection(vehicles)
     local selection = lib.inputDialog(locale('vehicle_selector.header'), {
         {
@@ -23,7 +9,7 @@ function ModalBuilder.requestVehicleSelection(vehicles)
             options = lib.array.map(vehicles, function(vehicle)
                 return {
                     value = vehicle.netId,
-                    label = ('%s [%s]'):format(vehicle.plate, generateCarLabel(vehicle.vehicleModel))
+                    label = ('%s [%s]'):format(vehicle.plate, Utils.generateCarLabel(vehicle.vehicleModel))
                 }
             end),
             required = true

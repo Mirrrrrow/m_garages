@@ -2,7 +2,8 @@
   "open_garage": "Open garage",
   "messages": {
     "unknown_error": "An unknown error occurred",
-    "no_vehicles": "No vehicles found"
+    "no_vehicles": "No vehicles found",
+    "vehicle_stored": "Vehicle successfully stored"
   },
   "garage_menu": {
     "list_vehicles": {
@@ -12,6 +13,13 @@
     "park_vehicle": {
       "title": "Park Vehicle",
       "description": "Park a vehicle in the garage"
+    },
+    "parkout": {
+      "stored_since": "Stored since",
+      "withdrawal_fees": {
+        "label": "Withdrawal fees",
+        "value": "$%s"
+      }
     }
   },
   "vehicle_selector": {
@@ -19,7 +27,7 @@
     "label": "Please select a vehicle"
   },
   "confirmation": {
-    "header": "Parkfees",
+    "header": "Parkfees - This garage is not free",
     "content": "This garage charges a parking fee of **$%s** per minute for your vehicle class. You will have to confirm this before proceeding."
   }
 }
