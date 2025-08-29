@@ -68,8 +68,11 @@ function Utils.calculateWithdrawalFees(garageKey, model)
     local parkingFeesData = garage.parkingFees
     if not parkingFeesData then return 0 end
 
+    local modelMultiplier = parkingFeesData.multipliers.models[model]
+    local classMultiplier = parkingFeesData.multipliers[GetVehicleClassFromName(model)]
+
     local fee = parkingFeesData.pricePerMinute *
-        (parkingFeesData.multipliers.models[model] or parkingFeesData.multipliers[GetVehicleClassFromName(model)] or 1)
+        (modelMultiplier or classMultiplier or 1)
     return fee
 end
 
