@@ -4,6 +4,8 @@
   "cannot_park_here": "Cannot park here",
   "vehicle_stored": "Vehicle stored successfully",
   "no_vehicles_stored": "No vehicles stored",
+  "cannot_retrieve_vehicle": "Cannot retrieve vehicle",
+  "vehicle_retrieved": "Vehicle retrieved successfully",
   "open_garage": "Open Garage",
   "main_menu": {
     "store_vehicle": "Store Vehicle",

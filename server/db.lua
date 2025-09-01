@@ -64,4 +64,23 @@ function Db.storeVehicle(xPlayer, identifier, garage, vehicleHandle)
     return MySQL.update.await(query, params)
 end
 
+---@param xPlayer table
+---@param identifier string
+---@param garage GarageProperties
+---@param plate string
+---@return boolean, table
+function Db.retrieveVehicle(xPlayer, identifier, garage, plate)
+    local query, params = buildQuery(xPlayer, garage,
+        'UPDATE owned_vehicles SET stored = 0, parking = NULL WHERE plate = ? AND stored = 1 AND parking = ?',
+        { plate, identifier })
+
+    --local affectedRows = MySQL.update.await(query, params)
+    local affectedRows = 1
+    if affectedRows == 0 then return false, {} end
+
+    return true,
+        json.decode(MySQL.scalar.await('SELECT vehicle FROM owned_vehicles WHERE plate = ?',
+            { plate }) or "{}")
+end
+
 return Db

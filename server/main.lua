@@ -63,3 +63,31 @@ lib.callback.register('garage:fetchStoredVehicles', function(playerId, identifie
 
     return true, vehicles
 end)
+
+lib.callback.register('garage:retrieveVehicle', function(playerId, plate, identifier)
+    local xPlayer = ESX.Player(playerId)
+    if not xPlayer then return false, 'error' end
+
+    local garage = GARAGES[identifier]
+    if not garage then return false, 'error' end
+
+    local success, vehicle = Db.retrieveVehicle(xPlayer, identifier, garage, plate)
+    if not success then return false, 'cannot_retrieve_vehicle' end
+
+    ---@todo wip get spawnpoints this is just for dev stuff
+    local coords = GetEntityCoords(GetPlayerPed(playerId))
+    ESX.OneSync.SpawnVehicle(tonumber(vehicle.model), coords, 0, vehicle, function(netId)
+        if not netId then return false, 'error' end
+
+        if WARP_PED_WHEN_RETRIEVING then
+            lib.waitFor(function()
+                local entity = NetworkGetEntityFromNetworkId(netId)
+                if DoesEntityExist(entity) then
+                    TaskWarpPedIntoVehicle(GetPlayerPed(playerId), entity, -1)
+                    return true
+                end
+            end, 'Unable to warp ped into vehicle')
+        end
+    end)
+    return true, 'vehicle_retrieved'
+end)

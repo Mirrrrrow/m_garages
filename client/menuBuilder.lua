@@ -42,6 +42,10 @@ function MenuBuilder.buildRetrieveMenu(identifier, data)
             return {
                 icon = 'car',
                 title = ('%s | %s'):format(vehicle.plate, Utils.getCarLabel(vehicle.model)),
+                onSelect = function()
+                    success, result = lib.callback.await('garage:retrieveVehicle', false, vehicle.plate, identifier)
+                    lib.notify({ description = locale(result), type = success and 'success' or 'error' })
+                end
             }
         end),
     })
