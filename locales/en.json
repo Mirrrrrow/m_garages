@@ -1,1 +1,7 @@
-{}
+{
+  "open_garage": "Open Garage",
+  "main_menu": {
+    "store_vehicle": "Store Vehicle",
+    "retrieve_vehicle": "Retrieve Vehicle"
+  }
+}

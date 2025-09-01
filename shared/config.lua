@@ -1,0 +1,1 @@
+GARAGES = require 'data.garages'
