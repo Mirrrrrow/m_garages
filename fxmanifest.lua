@@ -4,7 +4,7 @@ lua54 'yes'
 use_experimental_fxv2_oal 'yes'
 
 author 'Mirow'
-name 'fivem_lua_boilerplate'
+name 'm_garages'
 version '0.0.0'
 
 shared_scripts {
