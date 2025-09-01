@@ -71,23 +71,32 @@ lib.callback.register('garage:retrieveVehicle', function(playerId, plate, identi
     local garage = GARAGES[identifier]
     if not garage then return false, 'error' end
 
+    local spawnpoint = nil
+    for _, possibleSpawnPoint in ipairs(garage.spawnpoints) do
+        if #ESX.OneSync.GetVehiclesInArea(possibleSpawnPoint, 3.0) == 0 then
+            spawnpoint = possibleSpawnPoint
+            break
+        end
+    end
+
+    if not spawnpoint then return false, 'no_spawnpoint_available' end
+
     local success, vehicle = Db.retrieveVehicle(xPlayer, identifier, garage, plate)
     if not success then return false, 'cannot_retrieve_vehicle' end
 
-    ---@todo wip get spawnpoints this is just for dev stuff
-    local coords = GetEntityCoords(GetPlayerPed(playerId))
-    ESX.OneSync.SpawnVehicle(tonumber(vehicle.model), coords, 0, vehicle, function(netId)
-        if not netId then return false, 'error' end
+    ESX.OneSync.SpawnVehicle(tonumber(vehicle.model), spawnpoint.xyz, spawnpoint.w, vehicle,
+        function(netId)
+            if not netId then return false, 'error' end
 
-        if WARP_PED_WHEN_RETRIEVING then
-            lib.waitFor(function()
-                local entity = NetworkGetEntityFromNetworkId(netId)
-                if DoesEntityExist(entity) then
-                    TaskWarpPedIntoVehicle(GetPlayerPed(playerId), entity, -1)
-                    return true
-                end
-            end, 'Unable to warp ped into vehicle')
-        end
-    end)
+            if WARP_PED_WHEN_RETRIEVING then
+                lib.waitFor(function()
+                    local entity = NetworkGetEntityFromNetworkId(netId)
+                    if DoesEntityExist(entity) then
+                        TaskWarpPedIntoVehicle(GetPlayerPed(playerId), entity, -1)
+                        return true
+                    end
+                end, 'Unable to warp ped into vehicle')
+            end
+        end)
     return true, 'vehicle_retrieved'
 end)

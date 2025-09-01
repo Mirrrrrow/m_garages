@@ -22,3 +22,4 @@
 ---@field blip BlipStruct
 ---@field ped PedStruct
 ---@field restrictions { playerJob?: string[]|false, vehicleTypes?: string[]|false }
+---@field spawnpoints vector4[]

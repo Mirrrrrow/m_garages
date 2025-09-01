@@ -17,6 +17,11 @@ return {
         restrictions = {
             playerJob = false,
             vehicleTypes = { 'car', 'bike' }
+        },
+        spawnpoints = {
+            vec4(104.4628, -1078.6284, 28.1924, 338.4127),
+            vec4(107.8994, -1079.7924, 28.0178, 339.0255),
+            vec4(111.1200, -1081.2393, 28.0152, 338.0091)
         }
     }
 }
