@@ -102,8 +102,10 @@ function Utils.deleteEntity(entity)
 end
 
 ---**`client`**
----@param model string
+---In this project this function is used to get the label of a vehicle hash. The type conversion is handled to ensure the model is a number when getting the model from the database.
 function Utils.getCarLabel(model)
+    if type(model) == 'string' then model = tonumber(model) end
+
     local name = GetLabelText(GetDisplayNameFromVehicleModel(model))
     local make = GetMakeNameFromVehicleModel(model)
     if not make then return name end

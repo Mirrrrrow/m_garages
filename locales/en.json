@@ -3,6 +3,7 @@
   "no_vehicles_nearby": "No vehicles nearby",
   "cannot_park_here": "Cannot park here",
   "vehicle_stored": "Vehicle stored successfully",
+  "no_vehicles_stored": "No vehicles stored",
   "open_garage": "Open Garage",
   "main_menu": {
     "store_vehicle": "Store Vehicle",
@@ -14,5 +15,6 @@
       "label": "Please select a vehicle",
       "description": "Select a vehicle to store in the garage"
     }
-  }
+  },
+  "retrieve_vehicle": {}
 }

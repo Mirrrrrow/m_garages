@@ -50,3 +50,16 @@ lib.callback.register('garage:storeVehicle', function(playerId, netId, identifie
 
     return true, 'vehicle_stored'
 end)
+
+lib.callback.register('garage:fetchStoredVehicles', function(playerId, identifier)
+    local xPlayer = ESX.Player(playerId)
+    if not xPlayer then return false, 'error' end
+
+    local garage = GARAGES[identifier]
+    if not garage then return false, 'error' end
+
+    local vehicles = Db.fetchStoredVehicles(xPlayer, identifier, garage)
+    if #vehicles == 0 then return false, 'no_vehicles_stored' end
+
+    return true, vehicles
+end)
