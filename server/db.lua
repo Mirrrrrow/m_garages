@@ -1,28 +1,51 @@
 local Db = {}
 
+---Internal function to build a SQL query for fetching vehicles (with all the restrictions)
+---@param xPlayer table
+---@param garage GarageProperties
+---@param baseQuery string
+---@param baseParams table
+---@return string, table
+local function buildQuery(xPlayer, garage, baseQuery, baseParams)
+    local jobRestrictions = garage.restrictions?.playerJob
+    local vehicleRestrictions = garage.restrictions?.vehicleTypes
+
+    if vehicleRestrictions then
+        baseQuery = baseQuery .. ' AND type IN (?)'
+        table.insert(baseParams, vehicleRestrictions)
+    end
+
+    if jobRestrictions then
+        baseQuery = baseQuery .. ' AND job IN (?)'
+        table.insert(baseParams, jobRestrictions)
+    else
+        baseQuery = baseQuery .. ' AND job IS NULL AND owner = ?'
+        table.insert(baseParams, xPlayer.getIdentifier())
+    end
+
+    return baseQuery, baseParams
+end
+
 ---@param xPlayer table
 ---@param garage GarageProperties
 ---@param nearbyPlates string[]
 ---@return table
 function Db.fetchVehicles(xPlayer, garage, nearbyPlates)
-    local query, params =
+    local query, params = buildQuery(xPlayer, garage,
         'SELECT plate, JSON_EXTRACT(vehicle, "$.model") AS model FROM owned_vehicles WHERE stored = 0 AND plate IN (?)',
-        { nearbyPlates }
+        { nearbyPlates })
 
-    local jobRestrictions = garage.restrictions?.playerJob
-    local vehicleRestrictions = garage.restrictions?.vehicleTypes
-    if vehicleRestrictions then
-        query = query .. ' AND type IN (?)'
-        table.insert(params, vehicleRestrictions)
-    end
+    return MySQL.query.await(query, params)
+end
 
-    if jobRestrictions then
-        query = query .. ' AND job IN (?)'
-        table.insert(params, jobRestrictions)
-    else
-        query = query .. ' AND job IS NULL AND owner = ?'
-        table.insert(params, xPlayer.getIdentifier())
-    end
+---@param xPlayer table
+---@param identifier string
+---@param garage GarageProperties
+---@return table
+function Db.fetchStoredVehicles(xPlayer, identifier, garage)
+    local query, params = buildQuery(xPlayer, garage,
+        'SELECT plate, JSON_EXTRACT(vehicle, "$.model") AS model FROM owned_vehicles WHERE stored = 1 AND parking = ?',
+        { identifier })
 
     return MySQL.query.await(query, params)
 end
@@ -34,24 +57,9 @@ end
 ---@return number?
 function Db.storeVehicle(xPlayer, identifier, garage, vehicleHandle)
     local plate = TrimPlate(GetVehicleNumberPlateText(vehicleHandle))
-    local query, params =
+    local query, params = buildQuery(xPlayer, garage,
         'UPDATE owned_vehicles SET stored = 1, parking = ? WHERE plate = ?',
-        { identifier, plate }
-
-    local jobRestrictions = garage.restrictions?.playerJob
-    local vehicleRestrictions = garage.restrictions?.vehicleTypes
-    if vehicleRestrictions then
-        query = query .. ' AND type IN (?)'
-        table.insert(params, vehicleRestrictions)
-    end
-
-    if jobRestrictions then
-        query = query .. ' AND job IN (?)'
-        table.insert(params, jobRestrictions)
-    else
-        query = query .. ' AND job IS NULL AND owner = ?'
-        table.insert(params, xPlayer.getIdentifier())
-    end
+        { identifier, plate })
 
     return MySQL.update.await(query, params)
 end
