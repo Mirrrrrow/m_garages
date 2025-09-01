@@ -101,6 +101,16 @@ function Utils.deleteEntity(entity)
     end
 end
 
+---**`client`**
+---@param model string
+function Utils.getCarLabel(model)
+    local name = GetLabelText(GetDisplayNameFromVehicleModel(model))
+    local make = GetMakeNameFromVehicleModel(model)
+    if not make then return name end
+
+    return ('%s %s'):format(GetLabelText(make), name)
+end
+
 AddEventHandler('onResourceStop', function(resource)
     if resource ~= cache.resource then return end
 

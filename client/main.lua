@@ -8,6 +8,9 @@ MenuBuilder = require 'client.menuBuilder'
 local function openGarageMenu(identifier, data)
     if IsNuiFocused() or IsPauseMenuActive() or IsEntityDead(cache.ped) or cache.vehicle then return end
 
+    local jobRestrictions = data.restrictions?.playerJob
+    if jobRestrictions and not lib.table.contains(jobRestrictions, ESX.GetPlayerData().job.name) then return end
+
     MenuBuilder.buildGarageMenu(identifier, data)
 end
 

@@ -18,5 +18,7 @@
 ---@class GarageProperties
 ---@field label string
 ---@field coords vector4
+---@field radius? number
 ---@field blip BlipStruct
 ---@field ped PedStruct
+---@field restrictions { playerJob?: string[]|false, vehicleTypes?: string[]|false }

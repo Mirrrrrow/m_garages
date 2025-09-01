@@ -1,7 +1,18 @@
 {
+  "error": "An error occurred",
+  "no_vehicles_nearby": "No vehicles nearby",
+  "cannot_park_here": "Cannot park here",
+  "vehicle_stored": "Vehicle stored successfully",
   "open_garage": "Open Garage",
   "main_menu": {
     "store_vehicle": "Store Vehicle",
     "retrieve_vehicle": "Retrieve Vehicle"
+  },
+  "store_vehicle": {
+    "header": "Store Vehicle",
+    "select": {
+      "label": "Please select a vehicle",
+      "description": "Select a vehicle to store in the garage"
+    }
   }
 }
