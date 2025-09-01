@@ -24,7 +24,13 @@ function MenuBuilder.buildStoreModal(identifier)
     local netId = values?[1]
     if not netId then return end
 
-    success, result = lib.callback.await('garage:storeVehicle', false, netId, identifier)
+    local vehicleProperties = {}
+    if SAVE_VEHICLE_PROPERTIES then
+        local vehicle = NetworkGetEntityFromNetworkId(netId --[[@as number]])
+        vehicleProperties = ESX.Game.GetVehicleProperties(vehicle)
+    end
+
+    success, result = lib.callback.await('garage:storeVehicle', false, netId, identifier, vehicleProperties)
     lib.notify({ description = locale(result), type = success and 'success' or 'error' })
 end
 

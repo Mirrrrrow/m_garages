@@ -33,7 +33,7 @@ lib.callback.register('garage:fetchNearbyVehicles', function(playerId, identifie
     end)
 end)
 
-lib.callback.register('garage:storeVehicle', function(playerId, netId, identifier)
+lib.callback.register('garage:storeVehicle', function(playerId, netId, identifier, vehicleProperties)
     local xPlayer = ESX.Player(playerId)
     if not xPlayer then return false, 'error' end
 
@@ -43,7 +43,7 @@ lib.callback.register('garage:storeVehicle', function(playerId, netId, identifie
     local vehicle = NetworkGetEntityFromNetworkId(netId)
     if not vehicle then return false, 'error' end
 
-    local affectedRows = Db.storeVehicle(xPlayer, identifier, garage, vehicle)
+    local affectedRows = Db.storeVehicle(xPlayer, identifier, garage, vehicle, vehicleProperties)
     if affectedRows == 0 then return false, 'cannot_park_here' end
 
     DeleteEntity(vehicle)

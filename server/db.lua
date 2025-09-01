@@ -54,12 +54,22 @@ end
 ---@param identifier string
 ---@param garage GarageProperties
 ---@param vehicleHandle number
+---@param vehicleProperties table
 ---@return number?
-function Db.storeVehicle(xPlayer, identifier, garage, vehicleHandle)
+function Db.storeVehicle(xPlayer, identifier, garage, vehicleHandle, vehicleProperties)
     local plate = TrimPlate(GetVehicleNumberPlateText(vehicleHandle))
+
+    local baseQuery = SAVE_VEHICLE_PROPERTIES and
+        'UPDATE owned_vehicles SET stored = 1, parking = ?, vehicle = ? WHERE plate = ?' or
+        'UPDATE owned_vehicles SET stored = 1, parking = ? WHERE plate = ?'
+
+    local baseParams = SAVE_VEHICLE_PROPERTIES and
+        { identifier, json.encode(vehicleProperties), plate } or
+        { identifier, plate }
+
     local query, params = buildQuery(xPlayer, garage,
-        'UPDATE owned_vehicles SET stored = 1, parking = ? WHERE plate = ?',
-        { identifier, plate })
+        baseQuery,
+        baseParams)
 
     return MySQL.update.await(query, params)
 end
@@ -74,8 +84,7 @@ function Db.retrieveVehicle(xPlayer, identifier, garage, plate)
         'UPDATE owned_vehicles SET stored = 0, parking = NULL WHERE plate = ? AND stored = 1 AND parking = ?',
         { plate, identifier })
 
-    --local affectedRows = MySQL.update.await(query, params)
-    local affectedRows = 1
+    local affectedRows = MySQL.update.await(query, params)
     if affectedRows == 0 then return false, {} end
 
     return true,
