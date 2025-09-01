@@ -1,10 +1,11 @@
 ---@class BlipStruct
----@field label string
+---@field label? string
 ---@field sprite number
 ---@field color? number
 ---@field scale? number
 
 ---@class Blip : BlipStruct
+---@field label string
 ---@field coords vector3|{ x: number, y: number, z: number }
 
 ---@class PedStruct
@@ -13,3 +14,9 @@
 
 ---@class Ped : PedStruct
 ---@field coords vector4|{ x: number, y: number, z: number, w: number }
+
+---@class GarageProperties
+---@field label string
+---@field coords vector4
+---@field blip BlipStruct
+---@field ped PedStruct
