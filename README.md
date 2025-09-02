@@ -4,6 +4,7 @@
 
 A simple yet effective garage system for FiveM using ox_lib menus.
 Players can store, retrieve, and manage vehicles in personal or faction garages. Fully configurable and roleplay-friendly.
+Currently working on a UI design for the garage, will be implementing parking fees soon.
 
 ## 🥇 Installation
 
